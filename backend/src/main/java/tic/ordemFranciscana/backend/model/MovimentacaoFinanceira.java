@@ -1,5 +1,6 @@
 package tic.ordemFranciscana.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -7,28 +8,39 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "movimentacao_financeira")
-public class MovimentacaoFinanceira {
+@Inheritance(strategy = InheritanceType.JOINED)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public abstract class MovimentacaoFinanceira {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_movimentacao")
     private Long id;
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal valor;
-    @Column(nullable = false)
-    private LocalDate data;
-    @Column(nullable = false, length = 200)
-    private String descricao;
-    @Column(nullable = false, length = 100)
-    private String categoria;
 
-    public MovimentacaoFinanceira() {
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal valor;
+
+    @Column(name = "dt_movimentacao", nullable = false)
+    private LocalDate dataMovimentacao;
+
+    @Column(nullable = false, length = 500)
+    private String descricao;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario_registro", nullable = false)
+    @JsonIgnoreProperties({"movimentacoes", "senha"})
+    private Usuario registradaPor;
+
+    protected MovimentacaoFinanceira() {
     }
 
-    public MovimentacaoFinanceira(Long id, BigDecimal valor, LocalDate data, String descricao, String categoria) {
+    protected MovimentacaoFinanceira(Long id, BigDecimal valor, LocalDate dataMovimentacao,
+                                     String descricao, Usuario registradaPor) {
         this.id = id;
         this.valor = valor;
-        this.data = data;
+        this.dataMovimentacao = dataMovimentacao;
         this.descricao = descricao;
-        this.categoria = categoria;
+        this.registradaPor = registradaPor;
     }
 
     public Long getId() {
@@ -47,12 +59,12 @@ public class MovimentacaoFinanceira {
         this.valor = valor;
     }
 
-    public LocalDate getData() {
-        return data;
+    public LocalDate getDataMovimentacao() {
+        return dataMovimentacao;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDataMovimentacao(LocalDate dataMovimentacao) {
+        this.dataMovimentacao = dataMovimentacao;
     }
 
     public String getDescricao() {
@@ -63,11 +75,11 @@ public class MovimentacaoFinanceira {
         this.descricao = descricao;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public Usuario getRegistradaPor() {
+        return registradaPor;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setRegistradaPor(Usuario registradaPor) {
+        this.registradaPor = registradaPor;
     }
 }

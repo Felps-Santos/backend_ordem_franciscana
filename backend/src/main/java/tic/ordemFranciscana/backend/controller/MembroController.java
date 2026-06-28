@@ -2,35 +2,35 @@ package tic.ordemFranciscana.backend.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tic.ordemFranciscana.backend.model.Grupo;
-import tic.ordemFranciscana.backend.service.GrupoService;
+import tic.ordemFranciscana.backend.model.Membro;
+import tic.ordemFranciscana.backend.service.MembroService;
 
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/grupos")
-public class GrupoController {
+@RequestMapping("/membros")
+public class MembroController {
 
-    private final GrupoService service;
+    private final MembroService service;
 
-    public GrupoController(GrupoService service) {
+    public MembroController(MembroService service) {
         this.service = service;
     }
 
     @GetMapping
-    public ResponseEntity<List<Grupo>> listar() {
-        List<Grupo> grupos = service.listar();
-        if (grupos.isEmpty()) {
+    public ResponseEntity<List<Membro>> listar() {
+        List<Membro> membros = service.listar();
+        if (membros.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(grupos);
+        return ResponseEntity.ok(membros);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Grupo> buscarPorId(@PathVariable Long id) {
-        Optional<Grupo> encontrado = service.buscarPorId(id);
+    public ResponseEntity<Membro> buscarPorId(@PathVariable Long id) {
+        Optional<Membro> encontrado = service.buscarPorId(id);
         if (encontrado.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -38,14 +38,14 @@ public class GrupoController {
     }
 
     @PostMapping
-    public ResponseEntity<Grupo> salvar(@RequestBody Grupo grupo) {
-        Grupo novo = service.salvar(grupo);
-        return ResponseEntity.created(URI.create("/grupos/" + novo.getId())).body(novo);
+    public ResponseEntity<Membro> salvar(@RequestBody Membro membro) {
+        Membro novo = service.salvar(membro);
+        return ResponseEntity.created(URI.create("/membros/" + novo.getId())).body(novo);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Grupo> atualizar(@PathVariable Long id, @RequestBody Grupo grupo) {
-        Grupo atualizado = service.atualizar(id, grupo);
+    public ResponseEntity<Membro> atualizar(@PathVariable Long id, @RequestBody Membro membro) {
+        Membro atualizado = service.atualizar(id, membro);
         if (atualizado == null) {
             return ResponseEntity.notFound().build();
         }

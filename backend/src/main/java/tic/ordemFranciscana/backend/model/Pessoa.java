@@ -1,41 +1,38 @@
 package tic.ordemFranciscana.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "pessoas")
-public class Pessoa {
+@Table(name = "pessoa")
+@Inheritance(strategy = InheritanceType.JOINED)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public abstract class Pessoa {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_pessoa")
     private Long id;
 
     @Column(nullable = false, length = 100)
     private String nome;
 
+    @Column(name = "dt_nascimento", nullable = false)
+    private LocalDate dataNascimento;
+
     @Column(nullable = false, unique = true, length = 14)
     private String cpf;
 
-    @Column(name = "data_nascimento", nullable = false)
-    private LocalDate dataNascimento;
-
-    @Column(nullable = false, length = 20)
-    private String telefone;
-
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;
-
-    public Pessoa() {
+    protected Pessoa() {
     }
 
-    public Pessoa(Long id, String nome, String cpf, LocalDate dataNascimento, String telefone, String email) {
+    protected Pessoa(Long id, String nome, LocalDate dataNascimento, String cpf) {
         this.id = id;
         this.nome = nome;
-        this.cpf = cpf;
         this.dataNascimento = dataNascimento;
-        this.telefone = telefone;
-        this.email = email;
+        this.cpf = cpf;
     }
 
     public Long getId() {
@@ -54,14 +51,6 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
@@ -70,19 +59,11 @@ public class Pessoa {
         this.dataNascimento = dataNascimento;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }

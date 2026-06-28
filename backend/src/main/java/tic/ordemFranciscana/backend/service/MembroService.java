@@ -2,34 +2,34 @@ package tic.ordemFranciscana.backend.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tic.ordemFranciscana.backend.model.Reuniao;
-import tic.ordemFranciscana.backend.repository.ReuniaoRepository;
+import tic.ordemFranciscana.backend.model.Membro;
+import tic.ordemFranciscana.backend.repository.MembroRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-public class ReuniaoService {
+public class MembroService {
 
-    private final ReuniaoRepository repository;
+    private final MembroRepository repository;
 
-    public ReuniaoService(ReuniaoRepository repository) {
+    public MembroService(MembroRepository repository) {
         this.repository = repository;
     }
 
-    public List<Reuniao> listar() {
+    public List<Membro> listar() {
         return repository.findAll();
     }
 
-    public Optional<Reuniao> buscarPorId(Long id) {
+    public Optional<Membro> buscarPorId(Long id) {
         return repository.findById(id);
     }
 
     @Transactional
-    public Reuniao salvar(Reuniao reuniao) {
-        reuniao.setId(null);
-        return repository.save(reuniao);
+    public Membro salvar(Membro membro) {
+        membro.setId(null);
+        return repository.save(membro);
     }
 
     @Transactional
@@ -42,11 +42,11 @@ public class ReuniaoService {
     }
 
     @Transactional
-    public Reuniao atualizar(Long id, Reuniao nova) {
+    public Membro atualizar(Long id, Membro novo) {
         if (!repository.existsById(id)) {
             return null;
         }
-        nova.setId(id);
-        return repository.save(nova);
+        novo.setId(id);
+        return repository.save(novo);
     }
 }

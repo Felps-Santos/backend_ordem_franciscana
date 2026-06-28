@@ -2,34 +2,34 @@ package tic.ordemFranciscana.backend.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tic.ordemFranciscana.backend.model.Reuniao;
-import tic.ordemFranciscana.backend.repository.ReuniaoRepository;
+import tic.ordemFranciscana.backend.model.Solicitacao;
+import tic.ordemFranciscana.backend.repository.SolicitacaoRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-public class ReuniaoService {
+public class SolicitacaoService {
 
-    private final ReuniaoRepository repository;
+    private final SolicitacaoRepository repository;
 
-    public ReuniaoService(ReuniaoRepository repository) {
+    public SolicitacaoService(SolicitacaoRepository repository) {
         this.repository = repository;
     }
 
-    public List<Reuniao> listar() {
+    public List<Solicitacao> listar() {
         return repository.findAll();
     }
 
-    public Optional<Reuniao> buscarPorId(Long id) {
+    public Optional<Solicitacao> buscarPorId(Long id) {
         return repository.findById(id);
     }
 
     @Transactional
-    public Reuniao salvar(Reuniao reuniao) {
-        reuniao.setId(null);
-        return repository.save(reuniao);
+    public Solicitacao salvar(Solicitacao solicitacao) {
+        solicitacao.setId(null);
+        return repository.save(solicitacao);
     }
 
     @Transactional
@@ -42,7 +42,7 @@ public class ReuniaoService {
     }
 
     @Transactional
-    public Reuniao atualizar(Long id, Reuniao nova) {
+    public Solicitacao atualizar(Long id, Solicitacao nova) {
         if (!repository.existsById(id)) {
             return null;
         }

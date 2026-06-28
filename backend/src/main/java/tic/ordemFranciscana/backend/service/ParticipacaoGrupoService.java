@@ -2,34 +2,34 @@ package tic.ordemFranciscana.backend.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tic.ordemFranciscana.backend.model.Reuniao;
-import tic.ordemFranciscana.backend.repository.ReuniaoRepository;
+import tic.ordemFranciscana.backend.model.ParticipacaoGrupo;
+import tic.ordemFranciscana.backend.repository.ParticipacaoGrupoRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-public class ReuniaoService {
+public class ParticipacaoGrupoService {
 
-    private final ReuniaoRepository repository;
+    private final ParticipacaoGrupoRepository repository;
 
-    public ReuniaoService(ReuniaoRepository repository) {
+    public ParticipacaoGrupoService(ParticipacaoGrupoRepository repository) {
         this.repository = repository;
     }
 
-    public List<Reuniao> listar() {
+    public List<ParticipacaoGrupo> listar() {
         return repository.findAll();
     }
 
-    public Optional<Reuniao> buscarPorId(Long id) {
+    public Optional<ParticipacaoGrupo> buscarPorId(Long id) {
         return repository.findById(id);
     }
 
     @Transactional
-    public Reuniao salvar(Reuniao reuniao) {
-        reuniao.setId(null);
-        return repository.save(reuniao);
+    public ParticipacaoGrupo salvar(ParticipacaoGrupo participacao) {
+        participacao.setId(null);
+        return repository.save(participacao);
     }
 
     @Transactional
@@ -42,7 +42,7 @@ public class ReuniaoService {
     }
 
     @Transactional
-    public Reuniao atualizar(Long id, Reuniao nova) {
+    public ParticipacaoGrupo atualizar(Long id, ParticipacaoGrupo nova) {
         if (!repository.existsById(id)) {
             return null;
         }
